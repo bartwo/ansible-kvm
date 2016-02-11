@@ -1,0 +1,9 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+
+
+  tasks:
+    - name: ensure config is correct
+      template:

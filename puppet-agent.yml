@@ -1,0 +1,5 @@
+[main]
+certname = {{ certname }}
+server = {{ puppetmaster }}
+environment = {{ environment }}
+runinterval = {{ runinterval }}

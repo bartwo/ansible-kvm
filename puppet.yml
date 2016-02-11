@@ -1,0 +1,27 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    puppetmaster=<yourpuppetmaster.example.com>
+    environment=production
+    runinterval=30m
+    certname={{ ansible_fqdn }}
+
+  tasks:
+    - name: ensure puppet repository is installed
+      yum: name=https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rp state=installed
+
+    - name: install puppet agent
+      yum: name=puppet-agent state=latest
+
+    - name: configure puppet to point to puppetmaster
+      template: src=puppet-agent.j2 dest=/etc/puppetlabs/puppet/puppet.conf owner=root group=root mode=0644
+      notify:
+        - reload puppet-agent
+
+    - name: enable and start puppet service 
+      service: name=puppet-agent enabled=yes state=started
+
+  handlers:
+    - name: reload puppet-agent
+      service: name=puppet-agent state=reloaded

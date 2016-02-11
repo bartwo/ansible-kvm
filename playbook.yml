@@ -1,0 +1,37 @@
+---
+- hosts: all
+	sudo: yes
+  vars:
+    packages: 
+      - kvm
+      - virt-manager 
+      - libvirt 
+      - virt-install 
+      - qemu-kvm 
+      - xauth 
+      - dejavu-lgc-sans-fonts
+        
+
+  tasks:
+    - name: install packages for kvm
+      yum: name={{ item }} state=latest
+			with_items:
+				- kvm
+      	- virt-manager
+      	- libvirt
+      	- virt-install
+      	- qemu-kvm
+      	- xauth
+      	- dejavu-lgc-sans-fonts		
+
+		- name: install needed network manager libs
+  		yum: name={{ item }} state=installed
+ 	 		with_items:
+    		- libnm-qt-devel.x86_64
+    		- nm-connection-editor.x86_64
+    		- libsemanage-python
+    		- policycoreutils-python
+  
+
+    - name: Configure Bridge networking for KVM virtual machine
+
